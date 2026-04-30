@@ -17,6 +17,7 @@ import { NoArgumentSpreadRule } from './no-argument-spread.js';
 import { NoInternalPackageImportRule } from './no-internal-package-import.js';
 import { NoImportEnterpriseEditionRule } from './no-import-enterprise-edition.js';
 import { NoTypeOnlyImportInDiRule } from './no-type-only-import-in-di.js';
+import { NoComposableOutsideSetupRule } from './no-composable-outside-setup.js';
 
 export const rules = {
 	'no-uncaught-json-parse': NoUncaughtJsonParseRule,
@@ -37,4 +38,5 @@ export const rules = {
 	'no-internal-package-import': NoInternalPackageImportRule,
 	'no-import-enterprise-edition': NoImportEnterpriseEditionRule,
 	'no-type-only-import-in-di': NoTypeOnlyImportInDiRule,
+	'no-composable-outside-setup': NoComposableOutsideSetupRule,
 } satisfies Record<string, AnyRuleModule>;

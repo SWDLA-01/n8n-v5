@@ -117,6 +117,8 @@ export default defineConfig(
 						'Use workflowDocumentStore.setLastNodeParameters() instead of workflowsStore.setLastNodeParameters()',
 				},
 			],
+			'n8n-local-rules/no-composable-outside-setup': 'warn',
+
 			// TODO: Remove these
 			'n8n-local-rules/no-internal-package-import': 'warn',
 			'@typescript-eslint/ban-ts-comment': ['warn', { 'ts-ignore': true }],
