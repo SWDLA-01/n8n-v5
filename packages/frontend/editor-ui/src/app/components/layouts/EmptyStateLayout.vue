@@ -52,8 +52,7 @@ const showReadyToRunCard = computed(() => {
 });
 
 const showBuildAgentCard = computed(() => {
-	// Temporary visual stub: always show the agent entry point when workflow creation is allowed.
-	return canCreateWorkflow.value;
+	return settingsStore.isModuleActive('agents') && canCreateWorkflow.value;
 });
 
 const handleReadyToRunClick = async () => {
