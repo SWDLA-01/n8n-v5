@@ -285,6 +285,7 @@ const handleAppSelectionContinue = () => {
 	height: 100%;
 	padding: var(--spacing--4xl) var(--spacing--2xl) 0;
 	max-width: var(--content-container--width);
+	width: 100%;
 
 	@media (max-width: vars.$breakpoint-lg) {
 		padding: var(--spacing--xl) var(--spacing--xs) 0;
@@ -332,6 +333,7 @@ const handleAppSelectionContinue = () => {
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
+	width: 100%;
 }
 
 .fallbackDescription {
@@ -443,7 +445,7 @@ const handleAppSelectionContinue = () => {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: var(--spacing--md);
+	padding: var(--spacing--sm);
 }
 
 .cardIcon {
