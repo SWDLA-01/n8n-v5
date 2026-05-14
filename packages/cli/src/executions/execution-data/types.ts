@@ -28,5 +28,11 @@ export interface ExecutionDataStore {
 	init?(): Promise<void>;
 	write(ref: ExecutionRef, payload: ExecutionDataPayload): Promise<void>;
 	read(ref: ExecutionRef): Promise<ExecutionDataBundle | null>;
+	/**
+	 * Read multiple bundles by ref. Returns a map keyed by `executionId`.
+	 * Missing entries are omitted from the map — they are not treated as errors here;
+	 * callers can detect misses by comparing requested ids against the returned keys.
+	 */
+	readMany(refs: ExecutionRef[]): Promise<Map<string, ExecutionDataBundle>>;
 	delete(ref: ExecutionRef | ExecutionRef[]): Promise<void>;
 }
