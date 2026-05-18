@@ -186,6 +186,11 @@ const isExperimentalNdvActive = computed(() => experimentalNdvStore.isActive(vie
 const isCanvasNodeGroupingEnabled = computed(() =>
 	posthogStore.isFeatureEnabled(CANVAS_NODES_GROUPING_EXPERIMENT.name),
 );
+const shouldRenderCanvasNodeGroups = computed(
+	() =>
+		isCanvasNodeGroupingEnabled.value ||
+		(props.readOnly && canvasNodeGroupsStore.allGroups.length > 0),
+);
 
 const vueFlow = useVueFlow(props.id);
 const {
@@ -1243,7 +1248,7 @@ defineExpose({
 		</slot>
 
 		<CanvasNodeGroupsLayer
-			v-if="isCanvasNodeGroupingEnabled"
+			v-if="shouldRenderCanvasNodeGroups"
 			:read-only="readOnly || suppressInteraction"
 			:autofocus-group-id="nodeGroupIdToAutofocusTitle"
 			@title:focused="onNodeGroupTitleFocused"

@@ -13,6 +13,7 @@ import type { useDeviceSupport } from '@n8n/composables/useDeviceSupport';
 import { useVueFlow } from '@vue-flow/core';
 import { SIMULATE_NODE_TYPE } from '@/app/constants';
 import { canvasEventBus } from '@/features/workflows/canvas/canvas.eventBus';
+import { useCanvasNodeGroupsStore } from '../stores/canvasNodeGroups.store';
 
 const matchMedia = global.window.matchMedia;
 // @ts-expect-error Initialize window object
@@ -294,6 +295,32 @@ describe('Canvas', () => {
 			expect(patternCanvas).toBeInTheDocument();
 			expect(patternCanvas?.innerHTML).toContain('<path');
 			expect(patternCanvas?.innerHTML).not.toContain('<circle');
+		});
+	});
+
+	describe('node groups', () => {
+		it('should render existing groups in read-only mode when the grouping feature flag is disabled', async () => {
+			const groupsStore = useCanvasNodeGroupsStore();
+			const nodes: CanvasNode[] = [
+				createCanvasNodeElement({ id: '1', label: 'Node 1' }),
+				createCanvasNodeElement({ id: '2', label: 'Node 2', position: { x: 200, y: 200 } }),
+			];
+			groupsStore.setGroups([
+				{ id: 'group-1', name: 'Version group', nodeIds: nodes.map((node) => node.id) },
+			]);
+
+			const { container, getByTestId, queryByTestId } = renderComponent({
+				props: {
+					nodes,
+					readOnly: true,
+				},
+			});
+
+			await waitFor(() => expect(container.querySelectorAll('.vue-flow__node')).toHaveLength(2));
+			await waitFor(() =>
+				expect(getByTestId('canvas-node-group-title')).toHaveTextContent('Version group'),
+			);
+			expect(queryByTestId('canvas-node-group-toolbar')).not.toBeInTheDocument();
 		});
 	});
 
