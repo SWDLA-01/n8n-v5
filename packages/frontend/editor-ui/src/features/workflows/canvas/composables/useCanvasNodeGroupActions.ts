@@ -4,6 +4,7 @@ import type { MaybeRefOrGetter } from 'vue';
 import { computed, toValue } from 'vue';
 
 import { useSelectionValidation } from '@/app/composables/useSelectionValidation';
+import { useUIStore } from '@/app/stores/ui.store';
 import { useCanvasNodeGroupsStore, type CanvasNodeGroup } from '../stores/canvasNodeGroups.store';
 
 export function useCanvasNodeGroupActions(
@@ -12,6 +13,7 @@ export function useCanvasNodeGroupActions(
 ) {
 	const i18n = useI18n();
 	const groupsStore = useCanvasNodeGroupsStore();
+	const uiStore = useUIStore();
 	const { isSelectionGroupable, expandSelectionWithSubNodes } = useSelectionValidation();
 
 	const isReadOnly = computed(() => toValue(options?.readOnly) ?? false);
@@ -48,7 +50,9 @@ export function useCanvasNodeGroupActions(
 	function groupSelection(): CanvasNodeGroup | null {
 		if (!canGroup.value) return null;
 		const title = groupsStore.getNextDefaultTitle(i18n.baseText('canvas.nodeGroup.defaultTitle'));
-		return groupsStore.createGroup(expandedSelectionIds.value, title);
+		const group = groupsStore.createGroup(expandedSelectionIds.value, title);
+		uiStore.markStateDirty();
+		return group;
 	}
 
 	function ungroupSelection(): string[] {
@@ -56,6 +60,7 @@ export function useCanvasNodeGroupActions(
 		for (const id of ids) {
 			groupsStore.deleteGroup(id);
 		}
+		if (ids.length > 0) uiStore.markStateDirty();
 		return ids;
 	}
 

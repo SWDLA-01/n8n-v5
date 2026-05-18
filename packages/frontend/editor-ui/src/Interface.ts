@@ -40,6 +40,7 @@ import type { Version } from '@n8n/rest-api-client/api/versions';
 import type { Cloud, InstanceUsage } from '@n8n/rest-api-client/api/cloudPlans';
 import type {
 	WorkflowMetadata,
+	WorkflowNodeGroup,
 	WorkflowDataCreate,
 	WorkflowDataUpdate,
 } from '@n8n/rest-api-client/api/workflows';
@@ -257,6 +258,7 @@ export interface IWorkflowDb {
 	activeVersionId: string | null;
 	usedCredentials?: IUsedCredential[];
 	meta?: WorkflowMetadata;
+	nodeGroups?: WorkflowNodeGroup[];
 	parentFolder?: ResourceParentFolder & {
 		createdAt?: string;
 		updatedAt?: string;

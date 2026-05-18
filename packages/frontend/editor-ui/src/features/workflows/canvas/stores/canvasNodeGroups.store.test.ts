@@ -154,6 +154,32 @@ describe('canvasNodeGroups.store', () => {
 		});
 	});
 
+	describe('workflow persistence mapping', () => {
+		it('hydrates groups from workflow data', () => {
+			store.setGroups([{ id: 'group-1', name: 'Persisted group', nodeIds: ['a', 'b'] }]);
+
+			expect(store.allGroups).toEqual([
+				{
+					id: 'group-1',
+					title: 'Persisted group',
+					nodeIds: ['a', 'b'],
+				},
+			]);
+		});
+
+		it('serializes groups to workflow data', () => {
+			const group = store.createGroup(['a', 'b'], 'Canvas group');
+
+			expect(store.toWorkflowGroups()).toEqual([
+				{
+					id: group.id,
+					name: 'Canvas group',
+					nodeIds: ['a', 'b'],
+				},
+			]);
+		});
+	});
+
 	describe('clear', () => {
 		it('removes all groups', () => {
 			store.createGroup(['a', 'b'], 'X');

@@ -50,6 +50,7 @@ watch(
 	() => {
 		canvasNodeGroupsStore.clear();
 	},
+	{ flush: 'sync' },
 );
 
 const { onNodesInitialized, viewport, viewportRef, getNodes, fitBounds } = useVueFlow(props.id);

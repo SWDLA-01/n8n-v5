@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import uniq from 'lodash/uniq';
 import { computed, ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
+import type { WorkflowNodeGroup } from '@n8n/rest-api-client/api/workflows';
 
 export const CANVAS_NODE_GROUPS_STORE_ID = 'canvasNodeGroups';
 
@@ -109,6 +110,27 @@ export const useCanvasNodeGroupsStore = defineStore(CANVAS_NODE_GROUPS_STORE_ID,
 		}
 	}
 
+	function setGroups(workflowGroups: WorkflowNodeGroup[]) {
+		groups.value = new Map(
+			workflowGroups.map((group) => [
+				group.id,
+				{
+					id: group.id,
+					nodeIds: [...group.nodeIds],
+					title: group.name,
+				},
+			]),
+		);
+	}
+
+	function toWorkflowGroups(): WorkflowNodeGroup[] {
+		return allGroups.value.map((group) => ({
+			id: group.id,
+			name: group.title,
+			nodeIds: [...group.nodeIds],
+		}));
+	}
+
 	function clear() {
 		groups.value = new Map();
 	}
@@ -124,6 +146,8 @@ export const useCanvasNodeGroupsStore = defineStore(CANVAS_NODE_GROUPS_STORE_ID,
 		getGroupById,
 		getGroupForNode,
 		pruneNodes,
+		setGroups,
+		toWorkflowGroups,
 		clear,
 	};
 });

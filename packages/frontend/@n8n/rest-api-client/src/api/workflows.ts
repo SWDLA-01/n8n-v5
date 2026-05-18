@@ -1,4 +1,9 @@
-import type { IWorkflowSettings, IConnections, INode, IPinData } from 'n8n-workflow';
+import type {
+	IWorkflowSettings,
+	IConnections,
+	INode,
+	IPinData,
+} from 'n8n-workflow';
 
 import type { ITag } from './tags';
 
@@ -7,6 +12,12 @@ export interface WorkflowMetadata {
 	templateId?: string;
 	instanceId?: string;
 	templateCredsSetupCompleted?: boolean;
+}
+
+export interface WorkflowNodeGroup {
+	id: string;
+	name: string;
+	nodeIds: string[];
 }
 
 // Simple version of n8n-workflow.Workflow
@@ -22,6 +33,7 @@ export interface WorkflowData {
 	versionId?: string;
 	activeVersionId?: string | null;
 	meta?: WorkflowMetadata;
+	nodeGroups?: WorkflowNodeGroup[];
 }
 
 export interface WorkflowDataUpdate {
@@ -36,6 +48,7 @@ export interface WorkflowDataUpdate {
 	pinData?: IPinData;
 	versionId?: string;
 	meta?: WorkflowMetadata;
+	nodeGroups?: WorkflowNodeGroup[];
 	parentFolderId?: string;
 	uiContext?: string;
 	// checksum of workflow snapshot for conflict detection

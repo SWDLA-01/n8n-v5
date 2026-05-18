@@ -22,6 +22,7 @@ import { createTestNode } from '@/__tests__/mocks';
 import type { INodeUi, IWorkflowDb } from '@/Interface';
 import type { ProjectSharingData } from '@/features/collaboration/projects/projects.types';
 import type { IUsedCredential } from '@/features/credentials/credentials.types';
+import { useCanvasNodeGroupsStore } from '@/features/workflows/canvas/stores/canvasNodeGroups.store';
 
 const { getNodeTypeMock } = vi.hoisted(() => ({
 	getNodeTypeMock: vi.fn().mockReturnValue(null),
@@ -260,6 +261,9 @@ describe('workflowDocument.store orchestration', () => {
 			});
 			workflowDocumentStore.setPinData({ A: [{ json: { value: 1 } }] });
 			workflowDocumentStore.setTags(['tag-1', 'tag-2']);
+			useCanvasNodeGroupsStore().setGroups([
+				{ id: 'group-1', name: 'Grouped nodes', nodeIds: ['a', 'b'] },
+			]);
 
 			const data = workflowDocumentStore.serialize();
 
@@ -269,6 +273,9 @@ describe('workflowDocument.store orchestration', () => {
 			expect(data.pinData).toHaveProperty('A');
 			expect(data.tags).toEqual(['tag-1', 'tag-2']);
 			expect(data.id).toBe('wf-42');
+			expect(data.nodeGroups).toEqual([
+				{ id: 'group-1', name: 'Grouped nodes', nodeIds: ['a', 'b'] },
+			]);
 		});
 
 		it('deep-copies connections so later store mutations do not affect saved data', () => {
@@ -333,6 +340,7 @@ describe('workflowDocument.store orchestration', () => {
 				activeVersionId: 'ver-123',
 				usedCredentials: [usedCredential],
 				meta: { templateId: 'tpl-1' },
+				nodeGroups: [{ id: 'group-1', name: 'Grouped nodes', nodeIds: ['a', 'b'] }],
 				parentFolder: { id: 'f-1', name: 'Folder', parentFolderId: null },
 				activeVersion: version,
 				checksum: 'abc123',
@@ -371,6 +379,9 @@ describe('workflowDocument.store orchestration', () => {
 			expect(store.allNodes).toHaveLength(2);
 			expect(store.connectionsBySourceNode).toHaveProperty('A');
 			expect(store.pinData).toEqual({ A: [{ json: { foo: 'bar' } }] });
+			expect(useCanvasNodeGroupsStore().allGroups).toEqual([
+				{ id: 'group-1', title: 'Grouped nodes', nodeIds: ['a', 'b'] },
+			]);
 		});
 
 		it('applies safe defaults for missing optional fields', () => {
@@ -412,6 +423,7 @@ describe('workflowDocument.store orchestration', () => {
 			expect(store.allNodes).toHaveLength(0);
 			expect(store.connectionsBySourceNode).toEqual({});
 			expect(store.pinData).toEqual({});
+			expect(useCanvasNodeGroupsStore().allGroups).toEqual([]);
 		});
 
 		it('normalizes ITag[] tags to string[]', () => {

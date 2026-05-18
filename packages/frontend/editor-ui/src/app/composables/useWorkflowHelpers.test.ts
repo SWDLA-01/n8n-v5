@@ -34,6 +34,7 @@ import {
 	useWorkflowDocumentStore,
 	createWorkflowDocumentId,
 } from '@/app/stores/workflowDocument.store';
+import { useCanvasNodeGroupsStore } from '@/features/workflows/canvas/stores/canvasNodeGroups.store';
 
 describe('useWorkflowHelpers', () => {
 	let workflowsStore: ReturnType<typeof mockedStore<typeof useWorkflowsStore>>;
@@ -226,10 +227,12 @@ describe('useWorkflowHelpers', () => {
 				usedCredentials: [],
 				sharedWithProjects: [],
 				tags: [],
+				nodeGroups: [{ id: 'group-1', name: 'Grouped nodes', nodeIds: ['node-1', 'node-2'] }],
 			});
 			const addWorkflowSpy = vi.spyOn(workflowsListStore, 'addWorkflow');
 			const setWorkflowIdSpy = vi.spyOn(workflowsStore, 'setWorkflowId');
 			const upsertTagsSpy = vi.spyOn(tagsStore, 'upsertTags');
+			const setGroupsSpy = vi.spyOn(useCanvasNodeGroupsStore(), 'setGroups');
 
 			const { workflowDocumentStore } = await initState(workflowData);
 
@@ -247,6 +250,9 @@ describe('useWorkflowHelpers', () => {
 			expect(workflowDocumentStore.setSharedWithProjects).toHaveBeenCalledWith([]);
 			// Tags are now managed by workflowDocumentStore
 			expect(upsertTagsSpy).toHaveBeenCalledWith([]);
+			expect(setGroupsSpy).toHaveBeenCalledWith([
+				{ id: 'group-1', name: 'Grouped nodes', nodeIds: ['node-1', 'node-2'] },
+			]);
 		});
 
 		it('should handle missing `usedCredentials` and `sharedWithProjects` gracefully', async () => {

@@ -7,6 +7,7 @@ import {
 	useCanvasNodeGroupsStore,
 	type CanvasNodeGroup,
 } from '../../../stores/canvasNodeGroups.store';
+import { useUIStore } from '@/app/stores/ui.store';
 import { useVueFlowTransformPaneTeleport } from '../../../composables/useVueFlowTransformPaneTeleport';
 import { snapPositionToGrid } from '@/app/utils/nodeViewUtils';
 import CanvasNodeGroupOverlay from './CanvasNodeGroupOverlay.vue';
@@ -28,6 +29,7 @@ const emit = defineEmits<{
 }>();
 
 const groupsStore = useCanvasNodeGroupsStore();
+const uiStore = useUIStore();
 const { findNode, updateNode, viewport } = useVueFlow();
 const { teleportTarget } = useVueFlowTransformPaneTeleport();
 
@@ -42,6 +44,18 @@ function getMembers(group: CanvasNodeGroup): GraphNode[] {
 
 function onTitleFocused(id: string) {
 	emit('title:focused', id);
+}
+
+function onTitleUpdate(id: string, title: string) {
+	if (groupsStore.getGroupById(id)?.title === title) return;
+	groupsStore.updateTitle(id, title);
+	uiStore.markStateDirty();
+}
+
+function onUngroup(id: string) {
+	if (!groupsStore.getGroupById(id)) return;
+	groupsStore.deleteGroup(id);
+	uiStore.markStateDirty();
 }
 
 const visibleGroups = computed(() =>
@@ -135,9 +149,9 @@ function onHeaderDragStart(groupId: string, event: MouseEvent) {
 			:member-nodes="members"
 			:read-only="readOnly"
 			:autofocus-title="group.id === autofocusGroupId"
-			@update:title="groupsStore.updateTitle"
+			@update:title="onTitleUpdate"
 			@title:focused="onTitleFocused"
-			@ungroup="groupsStore.deleteGroup"
+			@ungroup="onUngroup"
 			@header:dragstart="onHeaderDragStart"
 		/>
 	</Teleport>

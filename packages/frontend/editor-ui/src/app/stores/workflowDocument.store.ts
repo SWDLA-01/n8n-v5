@@ -33,6 +33,7 @@ import { useUIStore } from '@/app/stores/ui.store';
 import { useNodeTypesStore } from '@/app/stores/nodeTypes.store';
 import { useNodeHelpers } from '@/app/composables/useNodeHelpers';
 import { serializeNode } from '@/app/utils/nodes/nodeTransforms';
+import { useCanvasNodeGroupsStore } from '@/features/workflows/canvas/stores/canvasNodeGroups.store';
 import type { WorkflowObjectAccessors } from '../types';
 import type { IWorkflowDb } from '@/Interface';
 import type { INode, IPinData, ProjectSharingData } from 'n8n-workflow';
@@ -137,6 +138,7 @@ export function useWorkflowDocumentStore(id: WorkflowDocumentId) {
 
 		const nodeTypesStore = useNodeTypesStore();
 		const nodeHelpers = useNodeHelpers();
+		const canvasNodeGroupsStore = useCanvasNodeGroupsStore();
 
 		const { cloneWorkflowObject, createWorkflowObject, ...workflowDocumentWorkflowObject } =
 			useWorkflowDocumentWorkflowObject({ workflowId });
@@ -225,6 +227,7 @@ export function useWorkflowDocumentStore(id: WorkflowDocumentId) {
 				tags: [...workflowDocumentTags.tags.value],
 				versionId: workflowDocumentVersionData.versionId.value,
 				meta: workflowDocumentMeta.meta.value,
+				nodeGroups: canvasNodeGroupsStore.toWorkflowGroups(),
 			};
 
 			if (workflowId) {
@@ -274,6 +277,7 @@ export function useWorkflowDocumentStore(id: WorkflowDocumentId) {
 			workflowDocumentNodes.setNodes(workflow.nodes ?? []);
 			workflowDocumentConnections.setConnections(workflow.connections ?? {});
 			workflowDocumentPinData.setPinData(workflow.pinData ?? {});
+			canvasNodeGroupsStore.setGroups(workflow.nodeGroups ?? []);
 
 			workflowDocumentWorkflowObject.initWorkflowObject({
 				id: workflow.id,
@@ -310,6 +314,7 @@ export function useWorkflowDocumentStore(id: WorkflowDocumentId) {
 			workflowDocumentConnections.setConnections({});
 			workflowDocumentPinData.setPinData({});
 			workflowDocumentViewport.setViewport(null);
+			canvasNodeGroupsStore.clear();
 
 			workflowDocumentWorkflowObject.initWorkflowObject({
 				id: workflowId,
@@ -365,6 +370,7 @@ export function useWorkflowDocumentStore(id: WorkflowDocumentId) {
 				meta: workflowDocumentMeta.meta.value,
 				parentFolder: workflowDocumentParentFolder.parentFolder.value ?? undefined,
 				checksum: workflowDocumentChecksum.checksum.value,
+				nodeGroups: canvasNodeGroupsStore.toWorkflowGroups(),
 			};
 		}
 

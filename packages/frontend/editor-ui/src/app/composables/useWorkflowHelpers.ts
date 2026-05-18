@@ -56,6 +56,7 @@ import {
 	createWorkflowDocumentId,
 	injectWorkflowDocumentStore,
 } from '@/app/stores/workflowDocument.store';
+import { useCanvasNodeGroupsStore } from '@/features/workflows/canvas/stores/canvasNodeGroups.store';
 import type { WorkflowObjectAccessors } from '../types';
 
 export type ResolveParameterOptions = {
@@ -791,6 +792,7 @@ export function useWorkflowHelpers() {
 	async function initState(workflowData: IWorkflowDb) {
 		workflowsListStore.addWorkflow(workflowData);
 		workflowsStore.setWorkflowId(workflowData.id);
+		useCanvasNodeGroupsStore().setGroups(workflowData.nodeGroups ?? []);
 		const initializedWorkflowDocumentStore = useWorkflowDocumentStore(
 			createWorkflowDocumentId(workflowData.id),
 		);
