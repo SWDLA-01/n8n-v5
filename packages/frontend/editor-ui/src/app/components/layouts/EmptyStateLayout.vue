@@ -17,6 +17,7 @@ import EmptyStateBuilderPrompt from '@/experiments/emptyStateBuilderPrompt/compo
 import AppSelectionPage from '@/experiments/credentialsAppSelection/components/AppSelectionPage.vue';
 import { useSettingsStore } from '@/app/stores/settings.store';
 import { NEW_AGENT_VIEW } from '@/features/agents/constants';
+import { useAgentTelemetry } from '@/features/agents/composables/useAgentTelemetry';
 import SurfaceMcpEmptyStateReminder from '@/experiments/surfaceMcpToNewCloudUsers/components/SurfaceMcpEmptyStateReminder.vue';
 import SurfaceMcpEmptyStateTile from '@/experiments/surfaceMcpToNewCloudUsers/components/SurfaceMcpEmptyStateTile.vue';
 
@@ -34,6 +35,7 @@ const emptyStateBuilderPromptStore = useEmptyStateBuilderPromptStore();
 const credentialsAppSelectionStore = useCredentialsAppSelectionStore();
 const readyToRunStore = useReadyToRunStore();
 const settingsStore = useSettingsStore();
+const agentTelemetry = useAgentTelemetry();
 
 const {
 	showAppSelection,
@@ -78,6 +80,7 @@ const handleReadyToRunClick = async () => {
 };
 
 const handleBuildAgentClick = () => {
+	agentTelemetry.trackClickedNewAgent('card', { startSessionRecording: true });
 	void router.push({
 		name: NEW_AGENT_VIEW,
 		query: {
