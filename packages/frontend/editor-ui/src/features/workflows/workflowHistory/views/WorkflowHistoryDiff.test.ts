@@ -2,6 +2,7 @@ import { createTestingPinia } from '@pinia/testing';
 import { waitFor } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import { defineComponent } from 'vue';
+import { mock } from 'vitest-mock-extended';
 import { createComponentRenderer } from '@/__tests__/render';
 import type { IWorkflowDb } from '@/Interface';
 import type { WorkflowHistory, WorkflowVersion } from '@n8n/rest-api-client/api/workflowHistory';
@@ -53,8 +54,22 @@ const renderComponent = createComponentRenderer(WorkflowHistoryDiff, {
 	global: {
 		stubs: {
 			WorkflowDiffView: defineComponent({
-				template:
-					'<div><slot name="sourceLabel" /><slot name="targetLabel" /><button data-test-id="diff-rendered" /></div>',
+				props: {
+					sourceWorkflow: { type: Object, required: true },
+					targetWorkflow: { type: Object, required: true },
+				},
+				methods: {
+					stringify(value: unknown) {
+						return JSON.stringify(value);
+					},
+				},
+				template: `<div>
+					<slot name="sourceLabel" />
+					<slot name="targetLabel" />
+					<span data-test-id="source-node-groups">{{ stringify(sourceWorkflow.nodeGroups) }}</span>
+					<span data-test-id="target-node-groups">{{ stringify(targetWorkflow.nodeGroups) }}</span>
+					<button data-test-id="diff-rendered" />
+				</div>`,
 			}),
 			WorkflowHistoryVersionSelect: defineComponent({
 				props: {
@@ -92,6 +107,7 @@ const createWorkflowVersion = (versionId: string): WorkflowVersion => ({
 	description: null,
 	nodes: [],
 	connections: {},
+	nodeGroups: [{ id: `group-${versionId}`, name: `Group ${versionId}`, nodeIds: [] }],
 });
 
 describe('WorkflowHistoryDiff', () => {
@@ -238,5 +254,45 @@ describe('WorkflowHistoryDiff', () => {
 				source: 'version_history',
 			});
 		});
+	});
+
+	it('passes node groups from each workflow version to the diff view', async () => {
+		const pinia = createTestingPinia();
+		const workflowHistoryStore = useWorkflowHistoryStore();
+		const workflowsListStore = useWorkflowsListStore();
+
+		vi.spyOn(workflowsListStore, 'fetchWorkflow').mockResolvedValue(
+			mock<IWorkflowDb>({
+				id: workflowId,
+				versionId: sourceVersionId,
+				activeVersionId: sourceVersionId,
+				nodeGroups: [{ id: 'current-group', name: 'Current Group', nodeIds: [] }],
+			}),
+		);
+		vi.spyOn(workflowHistoryStore, 'getWorkflowVersion').mockImplementation(
+			async (_workflowId, versionId) => {
+				await Promise.resolve();
+				return createWorkflowVersion(versionId);
+			},
+		);
+
+		const rendered = renderComponent({
+			pinia,
+			props: {
+				workflowId,
+				sourceWorkflowVersionId: sourceVersionId,
+				targetWorkflowVersionId: targetVersionId,
+				availableVersions,
+			},
+		});
+
+		await waitFor(() => expect(rendered.getByTestId('diff-rendered')).toBeInTheDocument());
+
+		expect(rendered.getByTestId('source-node-groups')).toHaveTextContent(
+			JSON.stringify(createWorkflowVersion(sourceVersionId).nodeGroups),
+		);
+		expect(rendered.getByTestId('target-node-groups')).toHaveTextContent(
+			JSON.stringify(createWorkflowVersion(targetVersionId).nodeGroups),
+		);
 	});
 });

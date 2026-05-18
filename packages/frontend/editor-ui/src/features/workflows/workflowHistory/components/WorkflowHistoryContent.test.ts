@@ -3,6 +3,7 @@ import type { MockInstance } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
 import { waitFor } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
+import { mock } from 'vitest-mock-extended';
 import type { UserAction } from '@n8n/design-system';
 import { createComponentRenderer } from '@/__tests__/render';
 import WorkflowHistoryContent from './WorkflowHistoryContent.vue';
@@ -11,6 +12,7 @@ import { workflowVersionDataFactory } from '../__tests__/utils';
 import type { IWorkflowDb } from '@/Interface';
 import type { IUser } from 'n8n-workflow';
 import { useProjectsStore } from '@/features/collaboration/projects/projects.store';
+import type { WorkflowNodeGroup } from '@n8n/rest-api-client/api/workflows';
 
 const actionTypes: WorkflowHistoryActionTypes = ['restore', 'clone', 'open', 'download'];
 const actions: Array<UserAction<IUser>> = actionTypes.map((value) => ({
@@ -89,8 +91,14 @@ describe('WorkflowHistoryContent', () => {
 	});
 
 	it('should pass proper workflow data to WorkflowPreview component', async () => {
-		const workflowVersion = workflowVersionDataFactory();
-		const workflow = { pinData: {} } as IWorkflowDb;
+		const versionNodeGroups: WorkflowNodeGroup[] = [
+			{ id: 'version-group', name: 'Version Group', nodeIds: ['node-1', 'node-2'] },
+		];
+		const workflowVersion = workflowVersionDataFactory({ nodeGroups: versionNodeGroups });
+		const workflow = mock<IWorkflowDb>({
+			pinData: {},
+			nodeGroups: [{ id: 'current-group', name: 'Current Group', nodeIds: [] }],
+		});
 		renderComponent({
 			pinia,
 			props: {
@@ -104,5 +112,12 @@ describe('WorkflowHistoryContent', () => {
 		await waitFor(() => {
 			expect(postMessageSpy).toHaveBeenCalledWith(expect.not.stringContaining('pinData'), '*');
 		});
+
+		const openWorkflowMessage = postMessageSpy.mock.calls
+			.map(([message]) => JSON.parse(String(message)))
+			.find(({ command }) => command === 'openWorkflow');
+
+		expect(openWorkflowMessage.workflow.nodeGroups).toEqual(versionNodeGroups);
+		expect(openWorkflowMessage.workflow).not.toHaveProperty('pinData');
 	});
 });

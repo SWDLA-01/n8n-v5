@@ -3,6 +3,7 @@ import type { IConnections, INode } from 'n8n-workflow';
 
 import type { IRestApiContext } from '../types';
 import { get, patch, post } from '../utils';
+import type { WorkflowNodeGroup } from './workflows';
 
 export type WorkflowHistory = {
 	versionId: string;
@@ -31,6 +32,7 @@ export type WorkflowVersion = WorkflowHistory & {
 	workflowId: string;
 	nodes: INode[];
 	connections: IConnections;
+	nodeGroups?: WorkflowNodeGroup[];
 };
 
 export type WorkflowHistoryActionTypes = Array<

@@ -13,9 +13,12 @@ export const workflowHistoryDataFactory: () => WorkflowHistory = () => ({
 	description: faker.lorem.sentence(),
 });
 
-export const workflowVersionDataFactory: () => WorkflowVersion = () => ({
+export const workflowVersionDataFactory = (
+	overrides: Partial<WorkflowVersion> = {},
+): WorkflowVersion => ({
 	...workflowHistoryDataFactory(),
 	workflowId: faker.string.nanoid(),
 	connections: {},
 	nodes: [],
+	...overrides,
 });
