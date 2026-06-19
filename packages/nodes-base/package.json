@@ -947,7 +947,7 @@
     "n8n-workflow": "workspace:*",
     "node-html-markdown": "1.2.0",
     "node-ssh": "13.2.0",
-    "nodemailer": "catalog:",
+    "nodemailer": "9.0.1",
     "oracledb": "6.9.0",
     "otpauth": "9.1.1",
     "pdfjs-dist": "5.3.31",
