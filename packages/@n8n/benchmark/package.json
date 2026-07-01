@@ -33,7 +33,7 @@
     "performance"
   ],
   "dependencies": {
-    "@oclif/core": "4.0.7",
+    "@oclif/core": "4.8.1",
     "axios": "catalog:",
     "dotenv": "17.2.3",
     "nanoid": "catalog:",
