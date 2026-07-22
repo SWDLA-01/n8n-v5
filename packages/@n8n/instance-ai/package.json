@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "@daytonaio/sdk": "0.149.0",
+    "@daytonaio/sdk": "0.200.0",
     "@joplin/turndown-plugin-gfm": "^1.0.12",
     "@mastra/core": "catalog:",
     "@mastra/daytona": "catalog:",
