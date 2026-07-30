@@ -96,7 +96,7 @@
   "dependencies": {
     "@1password/connect": "1.4.2",
     "@ai-sdk/anthropic": "2.0.61",
-    "@apidevtools/json-schema-ref-parser": "12.0.2",
+    "@apidevtools/json-schema-ref-parser": "15.5.1",
     "@aws-sdk/client-secrets-manager": "3.808.0",
     "@azure/identity": "catalog:",
     "@azure/keyvault-secrets": "4.8.0",
@@ -159,7 +159,7 @@
     "dotenv": "17.2.3",
     "express": "5.1.0",
     "express-handlebars": "8.0.1",
-    "express-openapi-validator": "5.5.3",
+    "express-openapi-validator": "5.6.1",
     "express-prom-bundle": "8.0.0",
     "express-rate-limit": "7.5.0",
     "fast-glob": "catalog:",
