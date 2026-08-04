@@ -12,7 +12,7 @@
     "scanner"
   ],
   "dependencies": {
-    "eslint": "catalog:",
+    "eslint": "10.0.0",
     "fast-glob": "catalog:",
     "axios": "catalog:",
     "@n8n/eslint-plugin-community-nodes": "workspace:*",
