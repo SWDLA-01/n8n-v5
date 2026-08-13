@@ -52,7 +52,7 @@
     "@mastra/core": "catalog:",
     "@mastra/daytona": "catalog:",
     "@mastra/mcp": "catalog:",
-    "@mastra/memory": "catalog:",
+    "@mastra/memory": "1.26.1",
     "langsmith": "catalog:",
     "@mozilla/readability": "^0.6.0",
     "@n8n/api-types": "workspace:*",
