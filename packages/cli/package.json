@@ -186,7 +186,7 @@
     "n8n-editor-ui": "workspace:*",
     "n8n-nodes-base": "workspace:*",
     "n8n-workflow": "workspace:*",
-    "nanoid": "catalog:",
+    "nanoid": "3.3.12",
     "nodemailer": "catalog:",
     "oauth-1.0a": "2.2.6",
     "open": "7.4.2",
