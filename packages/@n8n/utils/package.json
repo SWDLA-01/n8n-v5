@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@n8n/constants": "workspace:*",
-    "nanoid": "catalog:"
+    "nanoid": "3.3.12"
   },
   "devDependencies": {
     "@n8n/eslint-config": "workspace:*",
