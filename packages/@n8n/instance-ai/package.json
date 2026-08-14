@@ -64,7 +64,7 @@
     "fast-glob": "catalog:",
     "csv-parse": "6.2.1",
     "mammoth": "1.12.0",
-    "nanoid": "catalog:",
+    "nanoid": "3.3.12",
     "p-limit": "^3.1.0",
     "pdf-parse": "2.4.5",
     "psl": "1.9.0",
