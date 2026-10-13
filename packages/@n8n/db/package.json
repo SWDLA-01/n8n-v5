@@ -42,7 +42,7 @@
     "reflect-metadata": "catalog:",
     "uuid": "catalog:",
     "xss": "catalog:",
-    "zod": "catalog:"
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@n8n/typescript-config": "workspace:*",
