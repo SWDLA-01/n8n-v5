@@ -48,7 +48,7 @@
     "node-screenshots": "^0.2.8",
     "picocolors": "catalog:",
     "yargs-parser": "21.1.1",
-    "zod": "catalog:",
+    "zod": "4.6.6",
     "zod-to-json-schema": "catalog:"
   },
   "devDependencies": {
