@@ -110,6 +110,6 @@
     "acorn": "8.14.0",
     "n8n-workflow": "workspace:*",
     "uuid": "catalog:",
-    "zod": "catalog:"
+    "zod": "4.6.6"
   }
 }
