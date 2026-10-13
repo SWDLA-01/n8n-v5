@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@n8n/design-system": "workspace:*",
-		"vue": "catalog:frontend"
+		"vue": "3.5.42"
 	},
 	"devDependencies": {
 		"@n8n/typescript-config": "workspace:*",
