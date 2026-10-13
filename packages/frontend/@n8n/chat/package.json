@@ -41,7 +41,7 @@
     "highlight.js": "catalog:frontend",
     "markdown-it-link-attributes": "^4.0.1",
     "uuid": "catalog:",
-    "vue": "catalog:frontend",
+    "vue": "3.5.42",
     "vue-markdown-render": "catalog:frontend"
   },
   "devDependencies": {
