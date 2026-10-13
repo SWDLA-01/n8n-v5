@@ -254,7 +254,7 @@
     "@microsoft/agents-a365-observability": "0.1.0-preview.113",
     "@microsoft/agents-a365-runtime": "0.1.0-preview.113",
     "@microsoft/agents-a365-tooling": "0.1.0-preview.113",
-    "@microsoft/agents-a365-tooling-extensions-langchain": "0.1.0-preview.113",
+    "@microsoft/agents-a365-tooling-extensions-langchain": "1.0.0",
     "@microsoft/agents-activity": "1.2.3",
     "@microsoft/agents-hosting": "1.2.3",
     "@modelcontextprotocol/sdk": "1.26.0",
@@ -302,7 +302,7 @@
     "tmp-promise": "3.0.3",
     "vm2": "catalog:",
     "weaviate-client": "3.9.0",
-    "zod": "catalog:",
+    "zod": "4.6.6",
     "zod-to-json-schema": "catalog:"
   }
 }
