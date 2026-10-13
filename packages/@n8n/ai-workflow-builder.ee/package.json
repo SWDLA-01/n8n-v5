@@ -75,7 +75,7 @@
     "n8n-workflow": "workspace:*",
     "picocolors": "catalog:",
     "turndown": "^7.2.2",
-    "zod": "catalog:"
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@n8n/typescript-config": "workspace:*",
