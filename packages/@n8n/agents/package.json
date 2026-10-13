@@ -43,7 +43,7 @@
     "ai": "^6.0.116",
     "ajv": "^8.18.0",
     "pg": "catalog:",
-    "zod": "catalog:"
+    "zod": "4.6.6"
   },
   "peerDependencies": {
     "@opentelemetry/exporter-trace-otlp-http": ">=0.50.0",
