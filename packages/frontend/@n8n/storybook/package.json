@@ -16,7 +16,7 @@
     "@n8n/stores": "workspace:*",
     "@n8n/utils": "workspace:*",
     "pinia": "catalog:frontend",
-    "vue": "catalog:frontend",
+    "vue": "3.5.42",
     "vue-router": "catalog:frontend",
     "vue-tsc": "catalog:frontend"
   },
