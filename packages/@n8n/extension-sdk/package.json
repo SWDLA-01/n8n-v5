@@ -59,6 +59,6 @@
   },
   "license": "https://docs.n8n.io/sustainable-use-license/",
   "dependencies": {
-    "zod": "catalog:"
+    "zod": "4.6.6"
   }
 }
