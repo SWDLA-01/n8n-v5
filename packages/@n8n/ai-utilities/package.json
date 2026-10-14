@@ -52,11 +52,11 @@
     "n8n-workflow": "workspace:*"
   },
   "dependencies": {
-    "zod": "catalog:",
+    "zod": "4.6.6",
     "zod-to-json-schema": "catalog:",
     "@langchain/core": "catalog:",
     "@langchain/classic": "1.0.27",
-    "@langchain/community": "catalog:",
+    "@langchain/community": "1.1.29",
     "@langchain/textsplitters": "1.0.1",
     "@langchain/openai": "catalog:",
     "langchain": "catalog:",
