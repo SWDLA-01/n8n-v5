@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "n8n-workflow": "workspace:*",
-    "vue-i18n": "catalog:frontend"
+    "vue-i18n": "11.4.14"
   },
   "devDependencies": {
     "@n8n/eslint-config": "workspace:*",
