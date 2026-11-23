@@ -929,7 +929,7 @@
     "isbot": "3.6.13",
     "iso-639-1": "2.1.15",
     "js-nacl": "1.4.0",
-    "jsdom": "23.0.1",
+    "jsdom": "27.0.1",
     "jsonwebtoken": "catalog:",
     "kafkajs": "catalog:",
     "ldapts": "4.2.6",
